@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Calzado y Accesorios y Pisos: calzado cómodo y con estilo para mujer, hombre y niños.">
+  <title>Calzado y Accesorios y Pisos | Calzado para toda la familia</title>
+
+  <style>
+    /* =====================================================
+       1. VARIABLES DE COLOR Y TIPOGRAFÍA
+       Aquí se cambian los colores de toda la página.
+       ===================================================== */
+    :root {
+      --color-principal: #1B2A4A;   /* Azul noche: encabezado, pie y títulos */
+      --color-secundario: #1F7A8C;  /* Verde azulado: botones y enlaces */
+      --color-acento: #F2B134;      /* Amarillo ámbar: detalles y llamados a la acción */
+      --color-fondo: #F7F8FA;       /* Gris muy claro: fondo general */
+      --color-suave: #E4EEF6;       /* Azul claro: secciones alternas */
+      --color-texto: #1E2430;       /* Texto principal (alto contraste) */
+      --color-blanco: #FFFFFF;
+
+      --fuente-titulos: Georgia, "Times New Roman", serif;
+      --fuente-texto: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --ancho-maximo: 1100px;
+    }
+
+    /* =====================================================
+       2. ESTILOS BASE
+       ===================================================== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+    body {
+      font-family: var(--fuente-texto);
+      color: var(--color-texto);
+      background: var(--color-fondo);
+      line-height: 1.6;
+    }
+
+    img, svg { max-width: 100%; }
+
+    h1, h2, h3 {
+      font-family: var(--fuente-titulos);
+      color: var(--color-principal);
+      line-height: 1.2;
+    }
+
+    a { color: var(--color-secundario); }
+
+    /* Contenedor que centra el contenido */
+    .contenedor {
+      width: 100%;
+      max-width: var(--ancho-maximo);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Foco visible para quien navega con teclado (accesibilidad) */
+    a:focus-visible, button:focus-visible, input:focus-visible,
+    select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--color-acento);
+      outline-offset: 3px;
+    }
+
+    /* Enlace para saltar directo al contenido (lectores de pantalla y teclado) */
+    .saltar-contenido {
+      position: absolute;
+      left: -999px;
+      top: 8px;
+      background: var(--color-acento);
+      color: var(--color-principal);
+      padding: 8px 14px;
+      font-weight: 700;
+      z-index: 200;
+    }
+    .saltar-contenido:focus { left: 8px; }
+
+    /* =====================================================
+       3. BOTONES
+       ===================================================== */
+    .boton {
+      display: inline-block;
+      padding: 12px 26px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+    }
+    .boton-principal { background: var(--color-acento); color: var(--color-principal); }
+    .boton-principal:hover { background: #FFC85A; }
+    .boton-borde { border-color: var(--color-blanco); color: var(--color-blanco); }
+    .boton-borde:hover { background: var(--color-blanco); color: var(--color-principal); }
+    .boton-oscuro { background: var(--color-secundario); color: var(--color-blanco); }
+    .boton-oscuro:hover { background: #17606E; }
+
+    /* =====================================================
+       4. ENCABEZADO Y MENÚ DE NAVEGACIÓN
+       ===================================================== */
+    .encabezado {
+      background: var(--color-principal);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .encabezado-interior {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    /* Logotipo: icono + nombre */
+    .logotipo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--color-blanco);
+      text-decoration: none;
+      font-family: var(--fuente-titulos);
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .logotipo svg { width: 38px; height: 38px; flex-shrink: 0; }
+
+    /* Botón de menú para celulares (funciona sin JavaScript) */
+    .menu-casilla { position: absolute; opacity: 0; pointer-events: none; }
+    .menu-boton {
+      display: none;
+      color: var(--color-blanco);
+      border: 2px solid var(--color-blanco);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .menu-casilla:focus-visible + .menu-boton { outline: 3px solid var(--color-acento); outline-offset: 3px; }
+
+    .menu-lista {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+    }
+    .menu-lista a {
+      display: block;
+      color: var(--color-blanco);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .menu-lista a:hover { background: rgba(255, 255, 255, 0.15); }
+
+    /* =====================================================
+       5. SECCIÓN DE PORTADA (HERO)
+       ===================================================== */
+    .portada {
+      background: var(--color-principal);
+      color: var(--color-blanco);
+      padding: 70px 0 90px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portada-interior {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .portada h1 {
+      color: var(--color-blanco);
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      margin-bottom: 18px;
+    }
+
+    .portada p {
+      font-size: 1.15rem;
+      max-width: 52ch;
+      margin-bottom: 28px;
+      color: #DCE6F2;
+    }
+
+    .portada-botones { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    /* Dibujo del zapato dentro de un círculo */
+    .portada-imagen {
+      background: var(--color-secundario);
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+      max-width: 380px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .portada-imagen svg { width: 78%; height: auto; }
+
+    /* Franja con dibujo de suela (huella) al final de la portada */
+    .suela {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 22px;
+      background:
+        repeating-linear-gradient(135deg, var(--color-acento) 0 14px, transparent 14px 28px);
+    }
+
+    /* =====================================================
+       6. SECCIONES GENERALES
+       ===================================================== */
+    .seccion { padding: 70px 0; }
+    .seccion-suave { background: var(--color-suave); }
+
+    .seccion-titulo {
+      text-align: center;
+      max-width: 60ch;
+      margin: 0 auto 40px;
+    }
+    .seccion-titulo h2 { font-size: clamp(1.7rem, 3.5vw, 2.3rem); margin-bottom: 10px; }
+
+    /* Presentación de la empresa */
+    .presentacion {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .presentacion h2 { font-size: clamp(1.7rem, 3.5vw, 2.3rem); margin-bottom: 14px; }
+    .presentacion p { margin-bottom: 14px; max-width: 62ch; }
+
+    .datos-rapidos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .dato {
+      background: var(--color-blanco);
+      border-left: 6px solid var(--color-acento);
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(27, 42, 74, 0.1);
+    }
+    .dato strong {
+      display: block;
+      font-family: var(--fuente-titulos);
+      font-size: 1.4rem;
+      color: var(--color-principal);
+    }
+
+    /* =====================================================
+       7. TARJETAS (productos y ventajas)
+       ===================================================== */
+    .rejilla {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 24px;
+    }
+
+    .tarjeta {
+      background: var(--color-blanco);
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 10px rgba(27, 42, 74, 0.12);
+      border-top: 5px solid var(--color-secundario);
+    }
+    .tarjeta h3 { font-size: 1.3rem; margin: 14px 0 8px; }
+
+    .tarjeta-icono {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      background: var(--color-suave);
+      display: grid;
+      place-items: center;
+    }
+    .tarjeta-icono svg { width: 40px; height: 40px; }
+
+    /* Las tarjetas de productos cambian el color del borde superior */
+    .producto-mujer { border-top-color: var(--color-acento); }
+    .producto-hombre { border-top-color: var(--color-secundario); }
+    .producto-ninos { border-top-color: #7B5EA7; }
+    .producto-accesorios { border-top-color: var(--color-principal); }
+
+    .etiqueta {
+      display: inline-block;
+      margin-top: 12px;
+      background: var(--color-suave);
+      color: var(--color-principal);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    /* =====================================================
+       8. CONTACTO
+       ===================================================== */
+    .contacto {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .contacto-datos { list-style: none; }
+    .contacto-datos li {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+    .contacto-datos svg { width: 28px; height: 28px; flex-shrink: 0; margin-top: 2px; }
+
+    .formulario {
+      background: var(--color-blanco);
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(27, 42, 74, 0.12);
+    }
+    .formulario label { display: block; font-weight: 600; margin-bottom: 4px; }
+    .formulario input, .formulario textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 2px solid #8A97AB;
+      border-radius: 8px;
+      font: inherit;
+      margin-bottom: 16px;
+    }
+    .aviso-demo {
+      background: #FFF4D6;
+      border-left: 5px solid var(--color-acento);
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 0.95rem;
+    }
+    .mensaje-demo { margin-top: 14px; font-weight: 700; color: #17606E; }
+
+    /* =====================================================
+       9. PIE DE PÁGINA
+       ===================================================== */
+    .pie {
+      background: var(--color-principal);
+      color: #DCE6F2;
+      padding: 36px 0 20px;
+    }
+    .pie-interior {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .pie a { color: var(--color-acento); }
+    .pie ul { list-style: none; display: flex; gap: 18px; flex-wrap: wrap; }
+    .pie-derechos {
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      margin-top: 24px;
+      padding-top: 16px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /* =====================================================
+       10. ADAPTACIÓN A TABLETAS Y CELULARES
+       ===================================================== */
+
+    /* Tabletas */
+    @media (max-width: 900px) {
+      .portada-interior,
+      .presentacion,
+      .contacto { grid-template-columns: 1fr; }
+      .portada-imagen { max-width: 280px; }
+    }
+
+    /* Celulares: el menú se convierte en un botón desplegable */
+    @media (max-width: 700px) {
+      .menu-boton { display: inline-block; }
+      .menu-lista {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+      }
+      .menu-casilla:checked ~ .menu-lista { display: flex; }
+      .encabezado-interior { align-items: center; }
+      .menu-lista { order: 3; }
+      .seccion { padding: 50px 0; }
+    }
+
+    /* Respeta a quienes prefieren menos movimiento */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Enlace de accesibilidad -->
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+
+  <!-- Iconos reutilizables (se dibujan una sola vez y se usan varias veces) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Zapato de tacón / mujer -->
+      <symbol id="icono-mujer" viewBox="0 0 64 64">
+        <path d="M8 16c0 12 8 18 18 22l12 4c6 2 12 4 18 4v6H10c-2 0-4-2-4-4z" fill="#F2B134" stroke="#1B2A4A" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M10 52h48" stroke="#1B2A4A" stroke-width="3" stroke-linecap="round"/>
+      </symbol>
+      <!-- Zapato formal / hombre -->
+      <symbol id="icono-hombre" viewBox="0 0 64 64">
+        <path d="M6 22h14c4 0 6 6 12 8 8 3 22 3 26 10 1 3 1 8 1 8H6z" fill="#1F7A8C" stroke="#1B2A4A" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M6 48h52" stroke="#1B2A4A" stroke-width="3" stroke-linecap="round"/>
+      </symbol>
+      <!-- Tenis / niños -->
+      <symbol id="icono-ninos" viewBox="0 0 64 64">
+        <path d="M8 18h12v10c4 4 10 6 16 8 8 2 20 3 20 14v2H8z" fill="#9C84C7" stroke="#1B2A4A" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M8 48h48" stroke="#1B2A4A" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="26" cy="34" r="2" fill="#1B2A4A"/><circle cx="33" cy="38" r="2" fill="#1B2A4A"/>
+      </symbol>
+      <!-- Bolso / accesorios -->
+      <symbol id="icono-accesorios" viewBox="0 0 64 64">
+        <rect x="10" y="24" width="44" height="30" rx="6" fill="#1B2A4A"/>
+        <path d="M22 24v-4c0-6 4-10 10-10s10 4 10 10v4" fill="none" stroke="#F2B134" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="32" cy="38" r="4" fill="#F2B134"/>
+      </symbol>
+      <!-- Comodidad / corazón -->
+      <symbol id="icono-comodidad" viewBox="0 0 64 64">
+        <path d="M32 54C10 40 8 26 14 18c5-6 14-5 18 2 4-7 13-8 18-2 6 8 4 22-18 36z" fill="#F2B134" stroke="#1B2A4A" stroke-width="3" stroke-linejoin="round"/>
+      </symbol>
+      <!-- Precio / etiqueta -->
+      <symbol id="icono-precio" viewBox="0 0 64 64">
+        <path d="M8 8h24l24 24-24 24L8 32z" fill="#1F7A8C" stroke="#1B2A4A" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="21" cy="21" r="4" fill="#fff"/>
+      </symbol>
+      <!-- Familia / personas -->
+      <symbol id="icono-familia" viewBox="0 0 64 64">
+        <circle cx="20" cy="20" r="8" fill="#1B2A4A"/><circle cx="44" cy="20" r="8" fill="#1B2A4A"/>
+        <circle cx="32" cy="34" r="6" fill="#F2B134" stroke="#1B2A4A" stroke-width="2"/>
+        <path d="M6 54c0-11 6-18 14-18s14 7 14 18zM30 54c0-11 6-18 14-18s14 7 14 18z" fill="#1F7A8C"/>
+      </symbol>
+      <!-- Atención / mensaje -->
+      <symbol id="icono-atencion" viewBox="0 0 64 64">
+        <path d="M8 12h48v32H28l-12 10V44H8z" fill="#9C84C7" stroke="#1B2A4A" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="22" cy="28" r="3" fill="#1B2A4A"/><circle cx="32" cy="28" r="3" fill="#1B2A4A"/><circle cx="42" cy="28" r="3" fill="#1B2A4A"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ===================== ENCABEZADO ===================== -->
+  <header class="encabezado">
+    <div class="contenedor encabezado-interior">
+
+      <!-- Logotipo -->
+      <a class="logotipo" href="#inicio" aria-label="Calzado y Accesorios y Pisos, ir al inicio">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#F2B134"/>
+          <path d="M14 22h10c3 0 5 5 9 6 7 2 17 2 17 11v4H14z" fill="#1B2A4A"/>
+          <path d="M14 43h36" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span>Calzado y Accesorios y Pisos</span>
+      </a>
+
+      <!-- Menú de navegación -->
+      <nav aria-label="Menú principal" style="display:contents">
+        <input type="checkbox" id="menu-casilla" class="menu-casilla" aria-label="Abrir o cerrar el menú">
+        <label for="menu-casilla" class="menu-boton">Menú</label>
+
+        <ul class="menu-lista">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#productos">Productos</a></li>
+          <li><a href="#ventajas">Ventajas</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ===================== PORTADA ===================== -->
+    <section class="portada" id="inicio" aria-labelledby="titulo-portada">
+      <div class="contenedor portada-interior">
+        <div>
+          <h1 id="titulo-portada">Cada paso cuenta, y el tuyo merece comodidad y estilo</h1>
+          <p>Encuentra calzado para mujer, hombre y niños en un solo lugar, con modelos para el trabajo, el estudio, la fiesta y el día a día.</p>
+          <div class="portada-botones">
+            <a class="boton boton-principal" href="#productos">Ver productos</a>
+            <a class="boton boton-borde" href="#contacto">Escríbenos</a>
+          </div>
+        </div>
+
+        <!-- Dibujo decorativo de un zapato -->
+        <div class="portada-imagen" role="img" aria-label="Ilustración de un zapato">
+          <svg viewBox="0 0 200 140" aria-hidden="true">
+            <path d="M20 40h30c8 0 12 14 24 18 20 6 60 6 80 24 6 6 6 20 6 20H20z" fill="#F2B134" stroke="#1B2A4A" stroke-width="5" stroke-linejoin="round"/>
+            <path d="M20 108h140" stroke="#1B2A4A" stroke-width="6" stroke-linecap="round"/>
+            <path d="M52 62l10 8M64 68l10 8M76 74l10 8" stroke="#1B2A4A" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="suela" aria-hidden="true"></div>
+    </section>
+
+    <!-- ===================== NOSOTROS ===================== -->
+    <section class="seccion" id="nosotros" aria-labelledby="titulo-nosotros">
+      <div class="contenedor presentacion">
+        <div>
+          <h2 id="titulo-nosotros">Quiénes somos</h2>
+          <p>En Calzado y Accesorios y Pisos nos dedicamos a la venta de calzado cómodo, resistente y con buen diseño. Tenemos una selección pensada especialmente para la mujer, y también para hombres y niños, porque creemos que toda la familia merece caminar con seguridad.</p>
+          <p>Te ayudamos a elegir la talla y el modelo adecuados para cada ocasión, con una atención cercana y honesta.</p>
+        </div>
+
+        <div class="datos-rapidos">
+          <div class="dato"><strong>Mujer</strong>Nuestra especialidad</div>
+          <div class="dato"><strong>Hombre</strong>Formal y casual</div>
+          <div class="dato"><strong>Niños</strong>Escolar y deportivo</div>
+          <div class="dato"><strong>Accesorios</strong>Para completar tu look</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PRODUCTOS ===================== -->
+    <section class="seccion seccion-suave" id="productos" aria-labelledby="titulo-productos">
+      <div class="contenedor">
+        <div class="seccion-titulo">
+          <h2 id="titulo-productos">Nuestros productos</h2>
+          <p>Calzado para cada persona de la familia y accesorios para combinar.</p>
+        </div>
+
+        <div class="rejilla">
+
+          <!-- Tarjeta: mujer -->
+          <article class="tarjeta producto-mujer">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-mujer"/></svg></div>
+            <h3>Calzado para mujer</h3>
+            <p>Sandalias, tacones, flats, botas y tenis para oficina, salidas y uso diario.</p>
+            <span class="etiqueta">Nuestra especialidad</span>
+          </article>
+
+          <!-- Tarjeta: hombre -->
+          <article class="tarjeta producto-hombre">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-hombre"/></svg></div>
+            <h3>Calzado para hombre</h3>
+            <p>Zapatos formales, mocasines, tenis y sandalias resistentes y cómodas.</p>
+            <span class="etiqueta">Formal y casual</span>
+          </article>
+
+          <!-- Tarjeta: niños -->
+          <article class="tarjeta producto-ninos">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-ninos"/></svg></div>
+            <h3>Calzado para niños</h3>
+            <p>Zapatos escolares, tenis y sandalias livianos, ideales para jugar y crecer.</p>
+            <span class="etiqueta">Niñas y niños</span>
+          </article>
+
+          <!-- Tarjeta: accesorios -->
+          <article class="tarjeta producto-accesorios">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-accesorios"/></svg></div>
+            <h3>Accesorios</h3>
+            <p>Bolsos, cinturones y cuidado del calzado para que tus zapatos duren más.</p>
+            <span class="etiqueta">Complementos</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== VENTAJAS COMPETITIVAS ===================== -->
+    <section class="seccion" id="ventajas" aria-labelledby="titulo-ventajas">
+      <div class="contenedor">
+        <div class="seccion-titulo">
+          <h2 id="titulo-ventajas">Por qué elegirnos</h2>
+          <p>Lo que nos diferencia cuando compras con nosotros.</p>
+        </div>
+
+        <div class="rejilla">
+
+          <article class="tarjeta">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-comodidad"/></svg></div>
+            <h3>Comodidad primero</h3>
+            <p>Seleccionamos modelos que cuidan tus pies durante todo el día.</p>
+          </article>
+
+          <article class="tarjeta">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-precio"/></svg></div>
+            <h3>Precios justos</h3>
+            <p>Calidad a un valor accesible para el presupuesto de tu familia.</p>
+          </article>
+
+          <article class="tarjeta">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-familia"/></svg></div>
+            <h3>Para toda la familia</h3>
+            <p>Mujer, hombre y niños en un solo lugar, sin recorrer varias tiendas.</p>
+          </article>
+
+          <article class="tarjeta">
+            <div class="tarjeta-icono"><svg aria-hidden="true"><use href="#icono-atencion"/></svg></div>
+            <h3>Atención cercana</h3>
+            <p>Te asesoramos con la talla, el modelo y el cuidado de tu calzado.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACTO ===================== -->
+    <section class="seccion seccion-suave" id="contacto" aria-labelledby="titulo-contacto">
+      <div class="contenedor">
+        <div class="seccion-titulo">
+          <h2 id="titulo-contacto">Contáctanos</h2>
+          <p>Escríbenos o visítanos. Los datos de abajo son de ejemplo.</p>
+        </div>
+
+        <div class="contacto">
+
+          <!-- Datos de contacto (ficticios) -->
+          <ul class="contacto-datos">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#1F7A8C"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+              <div><strong>Dirección</strong><br>Calle Ejemplo # 00-00, Centro (dato de ejemplo)</div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 4 5a2 2 0 0 1 2-2z" fill="#1F7A8C"/></svg>
+              <div><strong>Teléfono</strong><br>000 000 0000 (dato de ejemplo)</div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2" fill="#1F7A8C"/><path d="M3 7l9 7 9-7" fill="none" stroke="#fff" stroke-width="2"/></svg>
+              <div><strong>Correo</strong><br>contacto@ejemplo.com (dato de ejemplo)</div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#1F7A8C"/><path d="M12 6v6l4 2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+              <div><strong>Horario</strong><br>Lunes a sábado, 9:00 a. m. a 7:00 p. m.</div>
+            </li>
+          </ul>
+
+          <!-- Formulario DEMOSTRATIVO -->
+          <form class="formulario" id="formulario-demo" aria-labelledby="titulo-formulario">
+            <h3 id="titulo-formulario" style="margin-bottom:12px;">Envíanos un mensaje</h3>
+
+            <p class="aviso-demo">
+              <strong>Formulario demostrativo:</strong> no envía información a ningún lugar. Para que funcione se necesita una integración adicional.
+            </p>
+
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="name" required>
+
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" autocomplete="email" required>
+
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+
+            <button type="submit" class="boton boton-oscuro">Enviar mensaje</button>
+            <p class="mensaje-demo" id="mensaje-demo" role="status" aria-live="polite"></p>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== PIE DE PÁGINA ===================== -->
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-interior">
+        <div>
+          <strong>Calzado y Accesorios y Pisos</strong><br>
+          Calzado para toda la familia.
+        </div>
+        <nav aria-label="Menú del pie de página">
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#ventajas">Ventajas</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+      <p class="pie-derechos">&copy; 2026 Calzado y Accesorios y Pisos. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- ===================== JAVASCRIPT ===================== -->
+  <script>
+    // Formulario demostrativo: evita que la página se recargue
+    // y muestra un aviso. No envía datos a ningún sitio.
+    var formulario = document.getElementById("formulario-demo");
+    var aviso = document.getElementById("mensaje-demo");
+
+    formulario.addEventListener("submit", function (evento) {
+      evento.preventDefault();
+      aviso.textContent = "Gracias. Esto es una demostración: tu mensaje no fue enviado.";
+      formulario.reset();
+    });
+  </script>
+
+</body>
+</html>
